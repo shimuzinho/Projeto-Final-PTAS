@@ -51,6 +51,21 @@ const getFilmeAssistido = (req, res) => {
 
 const postFilmeAssistido = (req, res) => {
   const { nome, duracao, avaliacaoGeral, avaliacaoPessoal, genero } = req.body;
+  
+  if (!nome || !duracao || !avaliacaoGeral || !avaliacaoPessoal || !genero) {
+    return res.status(400).json({
+      error: true,
+      message: "Todos os campos são obrigatórios."
+    });
+  }
+
+  if (typeof duracao !== 'number' || duracao <= 0) {
+    return res.status(400).json({
+      error: true,
+      message: "Duração deve ser um número maior que zero."
+    });
+  }
+
   const filmeNovo = {
     id: Date.now(),
     nome,
@@ -62,38 +77,50 @@ const postFilmeAssistido = (req, res) => {
   filmesAssistidos.push(filmeNovo);
   res.json({
     error: false,
-    message: `Filme adicionado com sucesso.`,
+    message: "Filme adicionado com sucesso.",
     data: filmeNovo
   });
 };
 
+
 const putFilmeAssistido = (req, res) => {
-  const posicaoFilme = filmesAssistidos.findIndex(filme => filme.id == req.params.id);
+  const { id } = req.params;
+  const posicaoFilme = filmesAssistidos.findIndex(filme => filme.id == id);
 
-  if (posicaoFilme != -1) {
-    const filmeEditado = filmesAssistidos[posicaoFilme];
-
-    const { nome, duracao, avaliacaoGeral, avaliacaoPessoal, genero } = req.body;
-
-    filmeEditado.nome = nome || filmeEditado.nome;
-    filmeEditado.duracao = duracao || filmeEditado.duracao;
-    filmeEditado.avaliacaoGeral = avaliacaoGeral || filmeEditado.avaliacaoGeral;
-    filmeEditado.avaliacaoPessoal = avaliacaoPessoal || filmeEditado.avaliacaoPessoal;
-    filmeEditado.genero = genero || filmeEditado.genero;
-
-    res.json(
-      {
-        error: false,
-        message: `Filme de id ${filmeEditado.id} editado com sucesso.`,
-        data: filmeEditado
-      }
-    );
-  } else {
-    res.json({
+  if (posicaoFilme === -1) {
+    return res.status(404).json({
       error: true,
-      message: `Filme de id ${req.params.id} não encontrado.`
+      message: `Filme de id ${id} não encontrado.`
     });
   }
+
+  const { nome, duracao, avaliacaoGeral, avaliacaoPessoal, genero } = req.body;
+  if (!nome || !duracao || !avaliacaoGeral || !avaliacaoPessoal || !genero) {
+    return res.status(400).json({
+      error: true,
+      message: "Todos os campos são obrigatórios."
+    });
+  }
+
+  if (typeof duracao !== 'number' || duracao <= 0) {
+    return res.status(400).json({
+      error: true,
+      message: "Duração deve ser um número maior que zero."
+    });
+  }
+
+  const filmeEditado = filmesAssistidos[posicaoFilme];
+  filmeEditado.nome = nome;
+  filmeEditado.duracao = duracao;
+  filmeEditado.avaliacaoGeral = avaliacaoGeral;
+  filmeEditado.avaliacaoPessoal = avaliacaoPessoal;
+  filmeEditado.genero = genero;
+
+  res.json({
+    error: false,
+    message: `Filme de id ${id} editado com sucesso.`,
+    data: filmeEditado
+  });
 };
 
 const deleteFilmeAssistido = (req, res) => {
