@@ -15,13 +15,13 @@ Para rodar esta API localmente, siga estes passos:
 
 ### Listar Todos os Filmes
 
-- **GET** `/`
+- **GET** `/filmes`
 - **Descrição**: Retorna uma lista de todos os filmes assistidos.
 - **Resposta**: Array de objetos contendo informações sobre os filmes.
 
 ### Buscar Filme por ID
 
-- **GET** `/:id`
+- **GET** `/filmes/:id`
 - **Descrição**: Retorna detalhes de um filme específico baseado no ID fornecido.
 - **Parâmetros**:
  - `id` (na URL): O ID do filme.
@@ -29,7 +29,7 @@ Para rodar esta API localmente, siga estes passos:
 
 ### Adicionar Novo Filme
 
-- **POST** `/`
+- **POST** `/filmes`
 - **Descrição**: Adiciona um novo filme à lista.
 - **Corpo da Requisição** (JSON):
  {
@@ -43,7 +43,7 @@ Para rodar esta API localmente, siga estes passos:
 
 ### Atualizar Filme Existente
 
-- **PUT** `/:id`
+- **PUT** `/filmes/:id`
 - **Descrição**: Atualiza dados de um filme existente.
 - **Parâmetros**:
  - `id` (na URL): O ID do filme a ser atualizado.
@@ -59,7 +59,7 @@ Para rodar esta API localmente, siga estes passos:
 
 ### Excluir Filme
 
-- **DELETE** `/:id`
+- **DELETE** `/filmes/:id`
 - **Descrição**: Remove um filme da lista com base no ID fornecido.
 - **Parâmetros**:
  - `id` (na URL): O ID do filme a ser removido.
